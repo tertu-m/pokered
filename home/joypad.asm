@@ -4,12 +4,13 @@ ReadJoypad::
 ; presses are indicated by a set bit.
 
 	ld a, 1 << 5 ; select direction keys
-	ld c, 0
 
 	ldh [rJOYP], a
-REPT 6
+	ld c, 6
+.wait1
+	dec c
+	jr nz, .wait1
 	ldh a, [rJOYP]
-ENDR
 	cpl
 	and %1111
 	swap a
@@ -17,9 +18,11 @@ ENDR
 
 	ld a, 1 << 4 ; select button keys
 	ldh [rJOYP], a
-REPT 10
+	ld c, 10
+.wait2
+	dec c
+	jr nz, .wait2
 	ldh a, [rJOYP]
-ENDR
 	cpl
 	and %1111
 	or b

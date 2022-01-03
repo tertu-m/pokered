@@ -1,13 +1,14 @@
 InitPlayerData:
 InitPlayerData2:
 
-	call Random
-	ldh a, [hRandomSub]
-	ld [wPlayerID], a
+	;don't do this here, instead set it at the end of Oak's speech -tertu
+	;call Random
+	;ldh a, [hRandomSub]
+	;ld [wPlayerID], a
 
-	call Random
-	ldh a, [hRandomAdd]
-	ld [wPlayerID + 1], a
+	;call Random
+	;ldh a, [hRandomAdd]
+	;ld [wPlayerID + 1], a
 
 	ld a, $ff
 	ld [wUnusedD71B], a

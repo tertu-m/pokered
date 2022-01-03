@@ -14,8 +14,7 @@ VermilionCity_Script:
 	jp CallFunctionInTable
 
 .setFirstLockTrashCanIndex
-	call Random
-	ldh a, [hRandomSub]
+	call GetRandom
 	and $e
 	ld [wFirstLockTrashCanIndex], a
 	ret

@@ -186,8 +186,8 @@ InGameTrade_PrepareTradeData:
 	ld de, wTradedPlayerMonOTID
 	ld bc, $2
 	call InGameTrade_CopyData
-	call Random
-	ld hl, hRandomAdd
+	call GetRandom
+	ld hl, hRandomLow
 	ld de, wTradedEnemyMonOTID
 	jp CopyData
 

@@ -150,6 +150,14 @@ OakSpeech:
 	ld [wUpdateSpritesEnabled], a
 	ld c, 50
 	call DelayFrames
+
+	call GetRandom
+	ld hl, wPlayerID
+	ldh a, [hRandomLow]
+	ld [hl+], a
+	ldh a, [hRandomHigh]
+	ld [hl], a
+
 	call GBFadeOutToWhite
 	jp ClearScreen
 OakSpeechText1:

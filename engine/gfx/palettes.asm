@@ -396,11 +396,11 @@ LoadSGB:
 	ret nc
 	ld a, 1
 	ld [wOnSGB], a
-	ld a, [wGBC]
-	and a
-	jr z, .notGBC
-	ret
-.notGBC
+;	ld a, [wGBC]
+;	and a
+;	jr z, .notGBC
+;	ret
+;.notGBC
 	di
 	call PrepareSuperNintendoVRAMTransfer
 	ei
@@ -562,41 +562,41 @@ Wait7000:
 	ret
 
 SendSGBPackets:
-	ld a, [wGBC]
-	and a
-	jr z, .notGBC
-	push de
-	call InitGBCPalettes
-	pop hl
-	call EmptyFunc3
-	ret
+;	ld a, [wGBC]
+;	and a
+;	jr z, .notGBC
+;	push de
+;	call InitGBCPalettes
+;	pop hl
+;	call EmptyFunc3
+;	ret
 .notGBC
 	push de
 	call SendSGBPacket
 	pop hl
 	jp SendSGBPacket
 
-InitGBCPalettes:
-	ld a, $80 ; index 0 with auto-increment
-	ldh [rBGPI], a
-	inc hl
-	ld c, $20
-.loop
-	ld a, [hli]
-	inc hl
-	add a
-	add a
-	add a
-	ld de, SuperPalettes
-	add e
-	jr nc, .noCarry
-	inc d
-.noCarry
-	ld a, [de]
-	ldh [rBGPD], a
-	dec c
-	jr nz, .loop
-	ret
+;InitGBCPalettes:
+;	ld a, $80 ; index 0 with auto-increment
+;	ldh [rBGPI], a
+;	inc hl
+;	ld c, $20
+;.loop
+;	ld a, [hli]
+;	inc hl
+;	add a
+;	add a
+;	add a
+;	ld de, SuperPalettes
+;	add e
+;	jr nc, .noCarry
+;	inc d
+;.noCarry
+;	ld a, [de]
+;	ldh [rBGPD], a
+;	dec c
+;	jr nz, .loop
+;	ret
 
 EmptyFunc3:
 	ret

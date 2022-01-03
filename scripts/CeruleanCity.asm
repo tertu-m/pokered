@@ -360,7 +360,7 @@ CeruleanCityText6:
 
 CeruleanCityText7:
 	text_asm
-	ldh a, [hRandomAdd]
+	ldh a, [hRandomLow]
 	cp 180 ; 76/256 chance of 1st dialogue
 	jr c, .notFirstText
 	ld hl, CeruleanCityText_19730
@@ -393,7 +393,7 @@ CeruleanCityText_1973a:
 
 CeruleanCityText8:
 	text_asm
-	ldh a, [hRandomAdd]
+	ldh a, [hRandomLow]
 	cp 180 ; 76/256 chance of 1st dialogue
 	jr c, .notFirstText
 	ld hl, CeruleanCityText_1976f

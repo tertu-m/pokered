@@ -183,7 +183,7 @@ ItemUseBall:
 ; Loop until an acceptable number is found.
 
 .loop
-	call Random
+	call GetRandom
 	ld b, a
 
 ; Get the item ID.
@@ -307,7 +307,7 @@ ItemUseBall:
 	and a
 	jr nz, .captured
 
-	call Random ; Let this random number be called Rand2.
+	call GetRandom ; Let this random number be called Rand2.
 
 ; If Rand2 > X, the ball fails to capture the Pokémon.
 	ld b, a
@@ -740,7 +740,7 @@ ItemUseSurfboard:
 	ld a, b
 	ld [wSimulatedJoypadStatesEnd], a
 	xor a
-	ld [wWastedByteCD39], a
+	;ld [wWastedByteCD39], a
 	inc a
 	ld [wSimulatedJoypadStatesIndex], a
 	ret
@@ -1458,7 +1458,7 @@ BaitRockCommon:
 	ldh [hWhoseTurn], a
 	ld [de], a ; zero escape factor (for bait), zero bait factor (for rock)
 .randomLoop ; loop until a random number less than 5 is generated
-	call Random
+	call GetRandom
 	and 7
 	cp 5
 	jr nc, .randomLoop
@@ -1828,7 +1828,7 @@ ItemUseGoodRod:
 	call FishingInit
 	jp c, ItemUseNotTime
 .RandomLoop
-	call Random
+	call GetRandom
 	srl a
 	jr c, .SetBite
 	and %11
@@ -2859,7 +2859,7 @@ ReadSuperRodData:
 	ld e, $0 ; no bite yet
 
 .RandomLoop
-	call Random
+	call GetRandom
 	srl a
 	ret c ; 50% chance of no battle
 

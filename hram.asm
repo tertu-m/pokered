@@ -267,8 +267,10 @@ hRedrawRowOrColumnMode:: db
 
 hRedrawRowOrColumnDest:: dw
 
-hRandomAdd:: db
-hRandomSub:: db
+;hRandomAdd:: db
+hRandomLow:: db
+;hRandomSub:: db
+hRandomHigh:: db
 
 hFrameCounter:: db ; decremented every V-blank (used for delays)
 
@@ -381,13 +383,10 @@ hSavedMapTextPtr:: dw
 	ds 1
 ENDU
 
-	ds 4
-
 hWhoseTurn:: db ; 0 on player's turn, 1 on enemy's turn
 
 hClearLetterPrintingDelayFlags:: db
 
-	ds 1
 
 ; bit 0: draw HP fraction to the right of bar instead of below (for party menu)
 ; bit 1: menu is double spaced
@@ -399,4 +398,8 @@ hJoyInput:: db
 
 hDisableJoypadPolling:: db
 
-	ds 5
+hRNGStateA:: dw
+hRNGStateB:: dw
+hRNGStateC:: dw
+hRNGStateCounter:: dw
+hRNGSeeded:: db

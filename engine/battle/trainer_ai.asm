@@ -316,7 +316,7 @@ TrainerAI:
 	ld a, [hli]
 	ld h, [hl]
 	ld l, a
-	call Random
+	call GetRandom
 	jp hl
 
 INCLUDE "data/trainers/ai_pointers.asm"

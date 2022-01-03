@@ -34,8 +34,6 @@ VBlank::
 
 	; VBlank-sensitive operations end.
 
-	call Random
-
 	ldh a, [hVBlankOccurred]
 	and a
 	jr z, .skipZeroing
@@ -78,6 +76,30 @@ VBlank::
 	and a
 	call z, ReadJoypad
 
+	ld hl, wFrameCounter
+	ld a, 1
+	add a, [hl]
+	ld [hl+], a
+	ld a, 0
+	adc a, [hl]
+	ld [hl], a
+
+	ld hl, wDivCounter
+	ldh a, [rDIV]
+	add a, [hl]
+	ld [hl+], a
+	ld a, 0
+	adc a, [hl]
+	ld [hl], a
+
+	ldh a, [hRNGSeeded]
+	and a
+	jr z, .afterStepRandom
+	ldh a, [rDIV]
+	and a
+	jr z, .stepRandom
+
+.afterStepRandom
 	ld a, [wVBlankSavedROMBank]
 	ldh [hLoadedROMBank], a
 	ld [MBC1RomBank], a
@@ -87,6 +109,9 @@ VBlank::
 	pop bc
 	pop af
 	reti
+.stepRandom
+	call GetRandom_
+	jr .afterStepRandom
 
 
 DelayFrame::

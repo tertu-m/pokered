@@ -111,9 +111,9 @@ _AddPartyMon::
 	jr nz, .copyEnemyMonData
 
 ; Not wild.
-	call Random ; generate random IVs
+	call GetRandom ; generate random IVs
 	ld b, a
-	call Random
+	ldh [hRandomLow], a
 
 .next4
 	push bc

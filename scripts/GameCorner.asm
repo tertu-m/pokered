@@ -11,8 +11,8 @@ CeladonGameCornerScript_48bcf:
 	bit 6, [hl]
 	res 6, [hl]
 	ret z
-	call Random
-	ldh a, [hRandomAdd]
+	call GetRandom
+;	ldh a, [hRandomAdd]
 	cp $7
 	jr nc, .asm_48be2
 	ld a, $8

@@ -40,7 +40,7 @@ CableClub_DoBattleOrTradeAgain:
 	jr nz, .writeRandomNumberListPreambleLoop
 	ld b, 10
 .generateRandomNumberListLoop
-	call Random
+	call GetRandom
 	cp SERIAL_PREAMBLE_BYTE ; all the random numbers have to be less than the preamble byte
 	jr nc, .generateRandomNumberListLoop
 	ld [hli], a

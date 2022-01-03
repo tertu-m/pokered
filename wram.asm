@@ -571,7 +571,6 @@ wEngagedTrainerClass:: db
 wEngagedTrainerSet:: db
 ENDU
 
-	ds 1
 
 wNPCMovementDirections2Index::
 wUnusedCD37::
@@ -583,16 +582,19 @@ wFilteredBagItemsCount:: db
 wSimulatedJoypadStatesIndex:: db
 
 ; written to but nothing ever reads it
-wWastedByteCD39:: db
+;wWastedByteCD39:: db
 
 ; written to but nothing ever reads it
-wWastedByteCD3A:: db
+;wWastedByteCD3A:: db
+
+;Two counters used to help seed the PRNG
+wDivCounter:: dw
+wFrameCounter:: dw
 
 ; mask indicating which real button presses can override simulated ones
 ; XXX is it ever not 0?
 wOverrideSimulatedJoypadStatesMask:: db
 
-	ds 1
 
 ; This union spans 30 bytes.
 UNION

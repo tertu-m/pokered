@@ -58,7 +58,7 @@ GymTrashScript:
 
 	ldh [hGymTrashCanRandNumMask], a
 	push hl
-	call Random
+	call GetRandom
 	swap a
 	ld b, a
 	ldh a, [hGymTrashCanRandNumMask]
@@ -85,7 +85,7 @@ GymTrashScript:
 
 ; Reset the cans.
 	ResetEvent EVENT_1ST_LOCK_OPENED
-	call Random
+	call GetRandom
 
 	and $e
 	ld [wFirstLockTrashCanIndex], a

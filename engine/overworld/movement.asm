@@ -179,7 +179,7 @@ UpdateNPCSprite:
 	res 0, [hl]
 	xor a
 	ld [wSimulatedJoypadStatesIndex], a
-	ld [wWastedByteCD3A], a
+	;ld [wWastedByteCD3A], a
 	ret
 .next
 	cp WALK
@@ -191,7 +191,7 @@ UpdateNPCSprite:
 	jr .determineDirection
 .randomMovement
 	call GetTileSpriteStandsOn
-	call Random
+	call GetRandom
 .determineDirection
 	ld b, a
 	ld a, [wCurSpriteMovement2]
@@ -350,11 +350,11 @@ UpdateSpriteInWalkingAnimation:
 	ld [hl], $1                      ; [x#SPRITESTATEDATA1_MOVEMENTSTATUS] = 1 (movement status ready)
 	ret
 .initNextMovementCounter
-	call Random
+	call GetRandom
 	ldh a, [hCurrentSpriteOffset]
 	add $8
 	ld l, a
-	ldh a, [hRandomAdd]
+	ldh a, [hRandomHigh]
 	and $7f
 	ld [hl], a                       ; x#SPRITESTATEDATA2_MOVEMENTDELAY:
 	                                 ; set next movement delay to a random value in [0,$7f]
@@ -687,8 +687,8 @@ CanWalkOntoTile:
 	ldh a, [hCurrentSpriteOffset]
 	add $8
 	ld l, a
-	call Random
-	ldh a, [hRandomAdd]
+	call GetRandom
+	;ldh a, [hRandomAdd]
 	and $7f
 	ld [hl], a         ; x#SPRITESTATEDATA2_MOVEMENTDELAY: set to a random value in [0,$7f] (again with delay $100 if value is 0)
 	scf                ; set carry (marking failure to walk)

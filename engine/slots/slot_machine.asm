@@ -178,7 +178,7 @@ SlotMachine_SetFlags:
 	ld a, [wSlotMachineAllowMatchesCounter]
 	and a
 	jr nz, .allowMatches
-	call Random
+	call GetRandom
 	and a
 	jr z, .setAllowMatchesCounter ; 1/256 (~0.4%) chance
 	ld b, a
@@ -597,7 +597,7 @@ SlotReward300Func:
 	call PrintText
 	ld a, SFX_GET_ITEM_2
 	call PlaySound
-	call Random
+	call GetRandom
 	cp $80
 	ld a, $0
 	jr c, .skip

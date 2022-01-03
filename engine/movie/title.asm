@@ -269,7 +269,22 @@ TitleScreenPickNewMon:
 
 .loop
 ; Keep looping until a mon different from the current one is picked.
-	call Random
+	;The normal RNG won't have been initialized yet, so we'll use wDivCounter.
+	;It's not ideal, but it really doesn't matter for this task. -tertu
+	ld hl, wDivCounter
+	ldh a, [rDIV]
+	;if rDIV is currently zero, this could deadlock!! -tertu
+	and a
+	jr nz, .nonzero
+	inc a
+.nonzero
+	add a, [hl]
+	ld [hl+], a
+	ld a, 0
+	adc a, [hl]
+	ld [hl-], a
+	
+	ld a, [hl]
 	and $f
 	ld c, a
 	ld b, 0
