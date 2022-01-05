@@ -39,6 +39,4 @@ SeedRandom_::
     call GetRandom_
     dec b
     jr nz, .loop
-	ld a, 1
-	ldh [hRNGSeeded], a
     ret

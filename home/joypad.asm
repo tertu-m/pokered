@@ -3,34 +3,33 @@ ReadJoypad::
 ; Unlike the hardware register, button
 ; presses are indicated by a set bit.
 
-	ld a, 1 << 5 ; select direction keys
+	push hl
+	ld hl, rJOYP
 
-	ldh [rJOYP], a
-	ld c, 6
-.wait1
-	dec c
-	jr nz, .wait1
-	ldh a, [rJOYP]
-	cpl
-	and %1111
+	ld a, 1 << 5 ; select direction keys
+	call .do_read
 	swap a
 	ld b, a
 
 	ld a, 1 << 4 ; select button keys
-	ldh [rJOYP], a
-	ld c, 10
-.wait2
-	dec c
-	jr nz, .wait2
-	ldh a, [rJOYP]
-	cpl
-	and %1111
+	call .do_read
 	or b
 
 	ldh [hJoyInput], a
 
 	ld a, 1 << 4 + 1 << 5 ; deselect keys
-	ldh [rJOYP], a
+	ld [hl], a
+
+	pop hl
+	ret
+
+.do_read
+	ld [hl], a
+	call .knownret
+	ld a, [hl]
+	cpl
+	and %1111
+.knownret
 	ret
 
 Joypad::

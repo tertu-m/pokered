@@ -20,7 +20,7 @@ BattleRandom::
 GetRandom::
     push hl
     push de
-    ldh a, [hRNGSeeded]
+    ldh a, [hRNGControl]
 	and a
     jr z, .not_seeded
 .seeded
@@ -36,6 +36,8 @@ GetRandom::
     push bc
     farcall SeedRandom_
     pop bc
+	ld a, $02
+	ldh [hRNGControl], a
     jr .seeded
 
 ;Advance the random number generator
@@ -87,10 +89,11 @@ GetRandom_::
     ldh [hRNGStateB+1], a
     ld h, d
     ld a, e
+	ld l, 0
     rept 4
         sla a
         rl h
-		adc a, 0
+		adc a, l
     endr
     ld l, a
     pop de

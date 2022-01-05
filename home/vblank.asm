@@ -92,8 +92,10 @@ VBlank::
 	adc a, [hl]
 	ld [hl], a
 
-	ldh a, [hRNGSeeded]
+	ldh a, [hRNGControl]
 	and a
+	jr z, .afterStepRandom
+	dec a
 	jr z, .afterStepRandom
 	ldh a, [rDIV]
 	and a
@@ -112,7 +114,6 @@ VBlank::
 .stepRandom
 	call GetRandom_
 	jr .afterStepRandom
-
 
 DelayFrame::
 ; Wait for the next vblank interrupt.

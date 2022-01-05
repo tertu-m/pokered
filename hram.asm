@@ -402,4 +402,10 @@ hRNGStateA:: dw
 hRNGStateB:: dw
 hRNGStateC:: dw
 hRNGStateCounter:: dw
-hRNGSeeded:: db
+
+;This takes 3 values under normal conditions:
+;$00 - RNG not seeded
+;$01 - RNG seeded, auto-step disabled (link battle)
+;$02 - RNG seeded, auto-step enabled (normal gameplay)
+;Any other value acts like $02.
+hRNGControl:: db
