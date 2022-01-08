@@ -87,19 +87,25 @@ VBlank::
 	ld hl, wDivCounter
 	ldh a, [rDIV]
 	add a, [hl]
+	;save low byte for use below
+	ld b, a
 	ld [hl+], a
 	ld a, 0
 	adc a, [hl]
 	ld [hl], a
 
+	;don't call the RNG if it is not mode 1
 	ldh a, [hRNGControl]
-	and a
-	jr z, .afterStepRandom
 	dec a
-	jr z, .afterStepRandom
-	ldh a, [rDIV]
+	jr nz, .afterStepRandom
+	;don't call the RNG if it is locked
+	ldh a, [hRNGLock]
 	and a
-	jr z, .stepRandom
+	jr nz, .afterStepRandom
+	;only call if the Div counter is 0
+	ld a, b
+	and a
+	call z, GetRandom_
 
 .afterStepRandom
 	ld a, [wVBlankSavedROMBank]
@@ -111,9 +117,6 @@ VBlank::
 	pop bc
 	pop af
 	reti
-.stepRandom
-	call GetRandom_
-	jr .afterStepRandom
 
 DelayFrame::
 ; Wait for the next vblank interrupt.

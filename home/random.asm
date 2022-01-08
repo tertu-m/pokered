@@ -21,10 +21,14 @@ GetRandom::
     push hl
     push de
     ldh a, [hRNGControl]
-	and a
+    and a
     jr z, .not_seeded
 .seeded
+    ;prevent the VBlank routine from trying to update the RNG state while we are doing it
+    ldh [hRNGLock], a
     call GetRandom_
+    xor a
+    ld [hRNGLock], a
     ld a, e
     ldh [hRandomLow], a
     ld a, d
@@ -36,14 +40,15 @@ GetRandom::
     push bc
     farcall SeedRandom_
     pop bc
-	ld a, $02
-	ldh [hRNGControl], a
+    ld a, 2
+    ldh [hRNGControl], a
     jr .seeded
 
 ;Advance the random number generator
 ;Returns: de = the next random number
 ;Trashes a, hl
 GetRandom_::
+    ;temp = hRNGStateCounter, hRNGStateCounter += 1
     ldh a, [hRNGStateCounter]
     ld l, a
     add a, 1
@@ -51,19 +56,25 @@ GetRandom_::
     ldh a, [hRNGStateCounter+1]
     ld h, a
     adc a, 0
-	ldh [hRNGStateCounter+1], a
+    ldh [hRNGStateCounter+1], a
+
+    ;temp += hRNGStateA
     ldh a, [hRNGStateA]
     add a, l
     ld l, a
     ldh a, [hRNGStateA+1]
     adc a, h
     ld h, a
+
+    ;temp += hRNGStateB
     ldh a, [hRNGStateB+1]
     ld d, a
     ldh a, [hRNGStateB]
     ld e, a
     add hl, de
     push hl
+
+    ;hRNGStateA = hRNGStateB ^ hRNGStateB >> 3
     ld h, d
     rept 3
         srl h
@@ -74,6 +85,8 @@ GetRandom_::
     ld a, h
     xor d
     ldh [hRNGStateA+1], a
+
+    ;hRNGStateB = hRNGStateC * 5
     ldh a, [hRNGStateC]
     ld e, a
     ld l, a
@@ -87,13 +100,15 @@ GetRandom_::
     ldh [hRNGStateB], a
     ld a, h
     ldh [hRNGStateB+1], a
+
+    ;hRNGStateC = hRNGStateC rol 4 + temp
     ld h, d
     ld a, e
-	ld l, 0
+    ld l, 0
     rept 4
         sla a
         rl h
-		adc a, l
+        adc a, l ;copy the bit rotated out into bit 0 of a
     endr
     ld l, a
     pop de

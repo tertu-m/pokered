@@ -409,3 +409,7 @@ hRNGStateCounter:: dw
 ;$02 - RNG seeded, auto-step enabled (normal gameplay)
 ;Any other value acts like $02.
 hRNGControl:: db
+
+;If nonzero, the RNG should not be touched in the VBlank routine even in mode $01.
+;Used to prevent the VBlank routine from trying to update the RNG while the normal code is updating it.
+hRNGLock:: db
