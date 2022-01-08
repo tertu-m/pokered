@@ -354,7 +354,7 @@ UpdateSpriteInWalkingAnimation:
 	ldh a, [hCurrentSpriteOffset]
 	add $8
 	ld l, a
-	ldh a, [hRandomHigh]
+	call GetRandom
 	and $7f
 	ld [hl], a                       ; x#SPRITESTATEDATA2_MOVEMENTDELAY:
 	                                 ; set next movement delay to a random value in [0,$7f]

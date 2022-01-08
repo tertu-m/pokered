@@ -307,7 +307,7 @@ ItemUseBall:
 	and a
 	jr nz, .captured
 
-	ldh a, [hRandomLow] ; Let this random number be called Rand2.
+	call GetRandom ; Let this random number be called Rand2.
 
 ; If Rand2 > X, the ball fails to capture the Pokémon.
 	ld b, a

@@ -49,10 +49,9 @@ TryDoWildEncounter:
 ; compare encounter chance with a random number to determine if there will be an encounter
 	ld b, a
 	call GetRandom
-	ldh a, [hRandomLow]
 	cp b
 	jr nc, .CantEncounter2
-	ldh a, [hRandomHigh]
+	call GetRandom
 	ld b, a
 	ld hl, WildMonEncounterSlotChances
 .determineEncounterSlot

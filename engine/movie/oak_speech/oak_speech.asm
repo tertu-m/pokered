@@ -151,11 +151,10 @@ OakSpeech:
 	ld c, 50
 	call DelayFrames
 
-	call GetRandom
 	ld hl, wPlayerID
-	ldh a, [hRandomLow]
+	call GetRandom
 	ld [hl+], a
-	ldh a, [hRandomHigh]
+	call GetRandom
 	ld [hl], a
 
 	call GBFadeOutToWhite

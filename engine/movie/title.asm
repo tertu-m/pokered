@@ -279,12 +279,8 @@ TitleScreenPickNewMon:
 	inc a
 .nonzero
 	add a, [hl]
-	ld [hl+], a
-	ld a, 0
-	adc a, [hl]
-	ld [hl-], a
-	
-	ld a, [hl]
+	ld [hl], a
+
 	and $f
 	ld c, a
 	ld b, 0

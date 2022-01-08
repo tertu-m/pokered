@@ -6113,7 +6113,7 @@ LoadEnemyMonData:
 ; random DVs for wild mon
 	call BattleRandom
 	ld b, a
-	ldh a, [hRandomLow]
+	call BattleRandom
 .storeDVs
 	ld hl, wEnemyMonDVs
 	ld [hli], a

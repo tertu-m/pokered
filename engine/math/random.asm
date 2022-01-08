@@ -14,29 +14,19 @@
 
 ;Seed the random number generator.
 ;Slow.
-;Trashes every register except c.
+;Trashes every register except l.
 SeedRandom_::
-    xor a
-    ldh [hRNGStateCounter+1], a
-    inc a
+    ld a, 1
     ldh [hRNGStateCounter], a
-    cpl
-    ldh [hRNGStateC+1], a
-    ld hl, wFrameCounter
-    ld a, [hl+]
+    ld a, [wFrameCounter]
     ldh [hRNGStateA], a
-    ld a, [hl]
-    ldh [hRNGStateA+1], a
-    ld hl, wDivCounter
-    ld a, [hl+]
-    ld [hRNGStateB], a
-    ld a, [hl]
-    ldh [hRNGStateB+1], a
+    ld a, [wDivCounter]
+    ldh [hRNGStateB], a
     ldh a, [rDIV]
     ldh [hRNGStateC], a
-    ld b, 16
+    ld h, 16
 .loop
     call GetRandom_
-    dec b
+    dec h
     jr nz, .loop
     ret

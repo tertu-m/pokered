@@ -267,11 +267,6 @@ hRedrawRowOrColumnMode:: db
 
 hRedrawRowOrColumnDest:: dw
 
-;hRandomAdd:: db
-hRandomLow:: db
-;hRandomSub:: db
-hRandomHigh:: db
-
 hFrameCounter:: db ; decremented every V-blank (used for delays)
 
 ; V-blank sets this to 0 each time it runs.
@@ -398,10 +393,10 @@ hJoyInput:: db
 
 hDisableJoypadPolling:: db
 
-hRNGStateA:: dw
-hRNGStateB:: dw
-hRNGStateC:: dw
-hRNGStateCounter:: dw
+hRNGStateA:: db
+hRNGStateB:: db
+hRNGStateC:: db
+hRNGStateCounter:: db
 
 ;This takes 3 values under normal conditions:
 ;$00 - RNG not seeded

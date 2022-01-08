@@ -18,7 +18,7 @@
 ;RNG and then copy it to the other
 BattleRandom::
 GetRandom::
-    push hl
+    push bc
     push de
     ldh a, [hRNGControl]
     and a
@@ -30,91 +30,43 @@ GetRandom::
     xor a
     ldh [hRNGLock], a
     ld a, e
-    ldh [hRandomLow], a
-    ld a, d
-    ldh [hRandomHigh],a
     pop de
-    pop hl
+    pop bc
     ret
 .not_seeded
-    push bc
     farcall SeedRandom_
-    pop bc
     ld a, 2
     ldh [hRNGControl], a
     jr .seeded
 
 ;Advance the random number generator
-;Returns: de = the next random number
-;Trashes a, hl
+;Returns: e = the next random number
+;Trashes a, b, c, d
 GetRandom_::
-    ;temp = hRNGStateCounter, hRNGStateCounter += 1
-    ldh a, [hRNGStateCounter]
-    ld l, a
-    add a, 1
-    ldh [hRNGStateCounter], a
-    ldh a, [hRNGStateCounter+1]
-    ld h, a
-    adc a, 0
-    ldh [hRNGStateCounter+1], a
-
-    ;temp += hRNGStateA
-    ldh a, [hRNGStateA]
-    add a, l
-    ld l, a
-    ldh a, [hRNGStateA+1]
-    adc a, h
-    ld h, a
-
-    ;temp += hRNGStateB
-    ldh a, [hRNGStateB+1]
+    ldh a, [hRNGStateC]
     ld d, a
     ldh a, [hRNGStateB]
+    ld b, a
+    ldh a, [hRNGStateCounter]
+    ld c, a
+    inc a
+    ldh [hRNGStateCounter], a
+    ldh a, [hRNGStateA]
+    add b
+    add c
     ld e, a
-    add hl, de
-    push hl
-
-    ;hRNGStateA = hRNGStateB ^ hRNGStateB >> 3
-    ld h, d
-    rept 3
-        srl h
-        sra a
-    endr
-    xor e
-    ldh [hRNGStateA], a    
-    ld a, h
-    xor d
-    ldh [hRNGStateA+1], a
-
-    ;hRNGStateB = hRNGStateC * 5
-    ldh a, [hRNGStateC]
-    ld e, a
-    ld l, a
-    ldh a, [hRNGStateC+1]
-    ld d, a
-    ld h, a
-    add hl, hl
-    add hl, hl
-    add hl, de
-    ld a, l
+    ld a, b
+    srl b
+    srl b
+    xor b
+    ldh [hRNGStateA], a
+    ld a, d
+    add a
+    add d
     ldh [hRNGStateB], a
-    ld a, h
-    ldh [hRNGStateB+1], a
-
-    ;hRNGStateC = hRNGStateC rol 4 + temp
-    ld h, d
-    ld a, e
-    ld l, 0
-    rept 4
-        sla a
-        rl h
-        adc a, l ;copy the bit rotated out into bit 0 of a
-    endr
-    ld l, a
-    pop de
-    add hl, de
-    ld a, l
-    ldh [hRNGStateC], a
-    ld a, h
-    ldh [hRNGStateC+1], a
+    ld a, d
+    swap a
+    rrca
+    add e
+    ldh [hRNGStateC], a 
     ret

@@ -77,21 +77,13 @@ VBlank::
 	call z, ReadJoypad
 
 	ld hl, wFrameCounter
-	ld a, 1
-	add a, [hl]
-	ld [hl+], a
-	ld a, 0
-	adc a, [hl]
-	ld [hl], a
+	inc [hl]
 
 	ld hl, wDivCounter
 	ldh a, [rDIV]
 	add a, [hl]
-	;save low byte for use below
+	;save for later
 	ld b, a
-	ld [hl+], a
-	ld a, 0
-	adc a, [hl]
 	ld [hl], a
 
 	;don't call the RNG if it is not mode 2
