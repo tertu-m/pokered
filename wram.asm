@@ -588,8 +588,8 @@ wSimulatedJoypadStatesIndex:: db
 ;wWastedByteCD3A:: db
 
 ;Two counters used to help seed the PRNG
-wDivCounter:: dw
-wFrameCounter:: dw
+wDivCounter:: db
+wFrameCounter:: db
 
 ; mask indicating which real button presses can override simulated ones
 ; XXX is it ever not 0?
