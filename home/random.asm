@@ -28,7 +28,7 @@ GetRandom::
     ldh [hRNGLock], a
     call GetRandom_
     xor a
-    ld [hRNGLock], a
+    ldh [hRNGLock], a
     ld a, e
     ldh [hRandomLow], a
     ld a, d

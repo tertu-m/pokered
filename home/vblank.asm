@@ -94,9 +94,9 @@ VBlank::
 	adc a, [hl]
 	ld [hl], a
 
-	;don't call the RNG if it is not mode 1
+	;don't call the RNG if it is not mode 2
 	ldh a, [hRNGControl]
-	dec a
+	cp 2
 	jr nz, .afterStepRandom
 	;don't call the RNG if it is locked
 	ldh a, [hRNGLock]
